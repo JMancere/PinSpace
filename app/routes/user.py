@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-bp = Blueprint('user', __name__, url_prefix="/api/user")
+bp = Blueprint('auth', __name__, url_prefix="/api/auth")
 
 @bp.route("/")
 def index():

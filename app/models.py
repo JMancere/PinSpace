@@ -43,7 +43,7 @@ class Pin(db.Model):
     title = db.Column(db.String(150), nullable=False)
     description = db.Column(db.String(500), nullable=False)
 
-    ownerId = db.Column(db.Integer, ForeignKey("users.id"))
+    ownerId = db.Column(db.Integer, ForeignKey(add_prefix_for_prod("users.id")))
     owner = relationship("User", back_populates="pins")
 
     comments = relationship("Comment", back_populates="pin")
@@ -55,7 +55,7 @@ class Board(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(500), nullable=False)
 
-    ownerId = db.Column(db.Integer, ForeignKey("users.id"))
+    ownerId = db.Column(db.Integer, ForeignKey(add_prefix_for_prod("users.id")))
     owner = relationship("User", back_populates="pins")
 
     boardPins = relationship("BoardPin", back_populates="board")
@@ -67,11 +67,11 @@ class BoardPin(db.Model):
 
     #Will have to test this. Not sure if this should be relationshipped.
     # Should pinID be linked? or just straight integer.
-    # pinId = db.Column(db.Integer, ForeignKey("pins.id"))
+    # pinId = db.Column(db.Integer, ForeignKey(add_prefix_for_prod("pins.id")))
     # pin = relationship("Pin", back_populates="pins")
     pinId = db.Column(db.Integer, nullable=False)
 
-    boardId = db.Column(db.Integer, ForeignKey("boards.id"))
+    boardId = db.Column(db.Integer, ForeignKey(add_prefix_for_prod("boards.id")))
     board = relationship("Board", back_populates="boardPins")
 
 class Comment(db.Model):
@@ -80,7 +80,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     comment = db.Column(db.String(250), nullable=False)
 
-    pinId = db.Column(db.Integer, ForeignKey("pins.id"))
+    pinId = db.Column(db.Integer, ForeignKey(add_prefix_for_prod("pins.id")))
     pin = relationship("Pin", back_populates="comments")
 
 class Label(db.Model):
@@ -89,5 +89,5 @@ class Label(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(15), nullable=False)
 
-    pinId = db.Column(db.Integer, ForeignKey("pins.id"))
+    pinId = db.Column(db.Integer, ForeignKey(add_prefix_for_prod(add_prefix_for_prod("pins.id")))
     pin = relationship("Pin", back_populates="labels")
